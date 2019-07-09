@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class='navbar fixed-top navbar-light bg-light'>
+        <a class='no-style' href='/'><span class='navbar-brand mb-0 py-0 h1'>Coding Dojo Wall</span></a>
+        {% if session['id'] %}
+            <div class='navbar-text mb-0 py-0'>
+                    <p class='navbar-text mb-0 py-0'>Welcome back, <a class='no-style' href='/wall'>{{ session['fn'] }}</a></p>
+                    <a class='navbar-text link ml-2' href='/logout'>Logout</a>
+            </div>
+        {% endif %}
+    </nav>
+
+    <div class='container mt-5'>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class='row justify-content-center'><h6 class='text-danger'>{{ message }}</h6></div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class='row'>
+            <div class='col-12 col-md-6'>
+                <h2>Registration</h2>
+                <form action='/register' method='post'>
+                    <div class='form-group'>
+                        <label for='register_first_name'>First Name:</label>
+                        <input type='text' id='register_first_name' name='register_first_name' class='form-control' value="{{ rd['first_name'] }}">
+                    </div>
+                    <div class='form-group'>
+                        <label for='register_last_name'>Last Name:</label>
+                        <input type='text' id='register_last_name' name='register_last_name' class='form-control' value="{{ rd['last_name'] }}">
+                    </div>
+                    <div class='form-group'>
+                        <label for='regsiter_email'>Email:</label>
+                        <input type='text' id='register_email' name='register_email' class='form-control' value="{{ rd['email'] }}">
+                    </div>
+                    <div class='form-group'>
+                        <label for='register_password'>Password:</label>
+                        <input type='password' id='register_password' name='register_password' class='form-control'>
+                    </div>
+                    <div class='form-group'>
+                        <label for='register_cpassword'>Confirm Password:</label>
+                        <input type='password' id='register_cpassword' name='register_cpassword' class='form-control'>
+                    </div>
+                    <div class='form-group'>
+                        <button class='btn btn-success'>Register</button>
+                    </div>
+                </form>
+            </div>
+            <div class='col-12 col-md-6'>
+                <h2>Login</h2>
+                <form action='/login' method='post'>
+                    <div class='form-group'>
+                        <label for='login_email'>Email:</label>
+                        <input type='text' id='login_email' name='login_email' class='form-control'>
+                    </div>
+                    <div class='form-group'>
+                        <label for='login_password'>Password:</label>
+                        <input type='password' id='login_password' name='login_password' class='form-control'>
+                    </div>
+                    <div class='form-group'>
+                        <button class='btn btn-success'>Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

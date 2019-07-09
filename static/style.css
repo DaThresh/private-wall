@@ -1,0 +1,25 @@
+body{
+    padding-top: 25px;
+}
+
+.text-underline{
+    text-decoration: underline;
+}
+
+a.no-style{
+    color: inherit !important;
+    text-decoration: none;
+}
+
+span#centerdivide{
+    position: absolute;
+    border: 1px solid black;
+    height: 90%;
+    width: 0;
+    left: 48.5%;
+    top: 10%;
+}
+
+span.text-time{
+    color: purple;
+}

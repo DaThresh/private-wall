@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Wall</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='open-iconic-bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class='navbar fixed-top navbar-light bg-light'>
+        <a class='no-style' href='/'><span class='navbar-brand mb-0 py-0 h1'>Coding Dojo Wall</span></a>
+        <div class='navbar-text mb-0 py-0'>
+                <p class='navbar-text mb-0 py-0'>Welcome back, <a class='no-style' href='/wall'>{{ session['fn'] }}</a></p>
+                <a class='navbar-text link ml-2' href='/logout'>Logout</a>
+        </div>
+    </nav>
+
+    <div class='container mt-5'>
+        <span id='centerdivide'></span>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class='row justify-content-center'><h6 class='text-success'>{{ message }}</h6></div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class='row'>
+            <div class='col'>
+                <h2 class='text-underline'><span class='text-success'>{{ num_messages_received }}</span> Message(s) for You</h2>
+
+                {% for msg in msgs %}
+                    <div class='row'>
+                        <div class='col-10'>
+                            <div class='row'>
+                                {{ msg['sender_name'] }} said <span class='text-time'>({{ msg['time'] }})</span>:
+                            </div>
+                            <div class='row ml-2'>
+                                {{ msg['message'] }}
+                            </div>
+                        </div>
+                        <div class='col-2'>
+                            <a href="/delete/{{ msg['msg_id'] }}"><span class="oi oi-trash mt-4"></span></a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class='col'>
+                <h2 class='text-underline'>Send Messages</h2>
+                <p class='text-success'>You have sent {{ num_messages_sent }} messages so far.</p>
+
+                {% for person in people %}
+                    <div class='row mb-3'>
+                        <h4 class='col-3'>{{ person['first_name'] }}</h4>
+                        <div class='col-9'>
+                            <form action='/sendmsg' method='post' class='row'>
+                            <textarea class='form-control col-9' name='msg'></textarea>
+                            <input type='hidden' name='id' value="{{ person['id'] }}">
+                            <div class='col-3'>
+                                <button class='btn btn-outline-info'>Send</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
